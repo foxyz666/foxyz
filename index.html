@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>С Днём Рождения 🎉</title>
+    <title>С ДР 🎉</title>
     <style>
         body {
             margin: 0;
@@ -15,16 +15,21 @@
             overflow: hidden;
         }
 
-        .container {
+        .box {
             text-align: center;
-            background: rgba(255,255,255,0.95);
+            background: white;
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
 
         h1 {
+            margin-bottom: 20px;
+        }
+
+        p {
             margin-bottom: 25px;
+            font-size: 18px;
         }
 
         button {
@@ -33,67 +38,65 @@
             border: none;
             border-radius: 12px;
             cursor: pointer;
-            transition: transform 0.2s, font-size 0.2s;
         }
 
-        #yesBtn {
+        #yes {
+            position: absolute;
             background: #4caf50;
             color: white;
-            margin-right: 20px;
         }
 
-        #noBtn {
-            position: absolute;
+        #no {
             background: #f44336;
             color: white;
         }
 
         img {
-            max-width: 320px;
-            border-radius: 15px;
+            max-width: 350px;
             margin-top: 20px;
+            border-radius: 15px;
         }
     </style>
 </head>
 <body>
 
-<div class="container" id="box">
+<div class="box" id="box">
     <h1>🎉 Ооо, поздравляю с днём рождения!</h1>
     <p>Хочешь получить подарок? 🎁</p>
-    <button id="yesBtn">Да 😎</button>
-    <button id="noBtn">Нет ❌</button>
+    <button id="no">Нет ❌</button>
+    <button id="yes">Да 😎</button>
 </div>
 
 <script>
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
+    const yes = document.getElementById("yes");
+    const no = document.getElementById("no");
     const box = document.getElementById("box");
 
-    let yesScale = 1;
-    let noScale = 1;
+    let scale = 1;
 
-    yesBtn.addEventListener("click", () => {
-        // увеличиваем "Да"
-        yesScale += 0.1;
-        yesBtn.style.transform = `scale(${yesScale})`;
+    // начальная позиция кнопки "Да"
+    moveYes();
 
-        // уменьшаем "Нет"
-        noScale -= 0.1;
-        if (noScale < 0.4) noScale = 0.4;
-        noBtn.style.transform = `scale(${noScale})`;
+    function moveYes() {
+        const x = Math.random() * (window.innerWidth - yes.offsetWidth);
+        const y = Math.random() * (window.innerHeight - yes.offsetHeight);
+        yes.style.left = x + "px";
+        yes.style.top = y + "px";
+    }
 
-        // переносим "Нет" в случайный угол
-        const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-        const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
+    // при наведении на "Да"
+    yes.addEventListener("mouseenter", () => {
+        scale -= 0.07;
+        if (scale < 0.3) scale = 0.3;
+        yes.style.transform = `scale(${scale})`;
+        moveYes();
     });
 
-    noBtn.addEventListener("click", () => {
+    // при клике на "Нет"
+    no.addEventListener("click", () => {
         box.innerHTML = `
-            <h1>Ну и ладно 😈</h1>
-            <p>Подарок отменяется</p>
-            <img src="https://media.tenor.com/vmE2JpXjJkUAAAAC/%D0%BF%D0%B0%D0%BF%D0%B8%D1%87-%D0%B0%D1%80%D1%82%D0%B0%D1%81.gif" alt="Papich laugh">
+            <h1>🎉 С др броооооо! 😂😂</h1>
+            <img src="https://media1.tenor.com/m/uATVCkQ_9BEAAAAd/%D0%BF%D0%B0%D0%BF%D0%B8%D1%87-%D0%B0%D1%80%D1%82%D0%B0%D1%81.gif" alt="Papich">
         `;
     });
 </script>
