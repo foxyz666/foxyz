@@ -56,7 +56,7 @@
             background: #4caf50;
             color: white;
             position: absolute;
-            left: calc(50% + 90px); /* рядом с Нет */
+            left: calc(50% + 90px); /* рядом с Нет при старте */
             top: 50%;
             transform: translateY(-50%);
         }
@@ -65,7 +65,7 @@
             max-width: 500px;
             margin-top: 20px;
             border-radius: 15px;
-            pointer-events: none; /* ❌ нельзя кликнуть */
+            pointer-events: none; /* нельзя нажать */
         }
     </style>
 </head>
@@ -90,31 +90,34 @@
     let scale = 1;
 
     function teleportYes() {
+        // случайная позиция по экрану
         const x = Math.random() * (window.innerWidth - yes.offsetWidth);
         const y = Math.random() * (window.innerHeight - yes.offsetHeight);
         yes.style.left = x + "px";
         yes.style.top = y + "px";
     }
 
-    // при наведении — ТП и уменьшение
+    // при наведении на "Да" — телепорт + уменьшение
     yes.addEventListener("mouseenter", () => {
         scale -= 0.08;
-        if (scale < 0.3) scale = 0.3;
+        if (scale < 0.3) scale = 0.3; // минимальный размер
         yes.style.transform = `scale(${scale})`;
         teleportYes();
     });
 
-    // при клике на "Нет"
+    // при клике на "Нет" — появляется видео со звуком
     no.addEventListener("click", () => {
         box.innerHTML = `
             <h1>🎉 С др броооооо! 🔥😎</h1>
-            <video src="papich.mp4"
-                   autoplay
-                   loop
-                   muted
-                   playsinline>
-            </video>
+            <video id="papichVideo" src="papich.mp4" autoplay loop></video>
         `;
+
+        const video = document.getElementById("papichVideo");
+        video.muted = false;      // звук
+        video.play();             // запускаем сразу
+        video.loop = true;        // бесконечно
+        video.controls = false;   // скрываем управление
+        video.style.pointerEvents = "none"; // нельзя остановить
     });
 </script>
 
